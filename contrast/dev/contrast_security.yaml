@@ -1,0 +1,32 @@
+api:
+    url: https://optum.contrastsecurity.com/Contrast/
+    api_key: kZy66BYR6lIf5EwlN50AMNh2fxet6Xx1
+    service_key: AIDGN2J5BY8SJNFG
+    user_name: agent_37472d1b-d5b7-474c-9011-314a144464c2@UhgSso
+agent:
+    java:
+        # For Route Coverage. 1 APP = 1 JVM
+        standalone_app_name: EMMACAA_UHGWM110-025517
+    logger:
+        # uncomment below and specify path to store logger
+        path: contrast_agent.log
+        # stdout: true
+        # Set the the log output level. Valid options are
+        # `ERROR`, `WARN`, `INFO`, `DEBUG`, and `TRACE`.
+        level: ERROR
+application:
+    # Name: Name of application within Contrast. All agents for the same code base should use this same name.
+    name: EMMACAA_UHGWM110-025517
+    # Security group/team group defined in contrast. This should be in the format of "appsec_uhgwm110_xxxxxx" or "appsec_aide_xxxxxx"
+    group: appsec_uhgwm110_025517
+    # Meta data used to organize and report on your app.
+    metadata: bU="EMMA",contact="suresh_payyavula4@optum.com",askId="UHGWM110-025517"
+assess:
+    # correlates to "version" in fortify, specify sub application name, ie: API Name, Client UI Name, etc...
+    tags: emma-caa-file-processor-service
+server:
+    #if using a container or dynamically generated hostname, specify common hostname
+    name: k8_EMMA_CA_FILE_PROCESS_DEV
+    #version
+    # environment: Development, QA, Production
+    environment: development

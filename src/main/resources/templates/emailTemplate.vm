@@ -1,0 +1,26 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <table align="left">
+            <tr>
+                <td width="85%" style="font-family:Arial; font-size:13px; padding-bottom:20px">
+                    <br/>
+                    Service now incident <a href = ${IncidentURL}>${IncidentNo}</a> created By EMMA with below details,<br/>
+                    <br/>
+                    <ul>
+                        <li>Description: ${Description} </li>
+                        <li>Assignment group: ${AssignmentGroup} </li>
+                        <li>Error: ${ErrorType} </li>
+                        <li>Request number: ${RequestNo} </li>
+                        <li>State: ${StateType} </li>
+                        <li>Type: ${ServiceNowType} </li>
+                        <li>Priority: ${PriorityType} </li>
+                    </ul>
+                    <br/>
+                    Thank you.
+                </td>
+                </tr>
+        </table>
+    </body>
+</html>

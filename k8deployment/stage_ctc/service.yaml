@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: emma-caa-file-processor-service-service
+spec:
+    ports:
+        - port: 80
+          targetPort: 8080
+          protocol: TCP
+    selector:
+        app: emma
+        subapp: dwmp
+        tier: backend
+        type: kafka
+        microservice: fileProcessorService

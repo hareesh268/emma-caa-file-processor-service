@@ -1,0 +1,28 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <table align="left">
+            <tr>
+                <td width="85%" style="font-family:Arial; font-size:13px; padding-bottom:20px">
+                    <br/>
+                    Hi Team,
+                    <br/>
+                    <br/>
+                    We have received file from CES with below details.
+                    <br/>
+                    <ul>
+                        <li>Environment: ${envName} </li>
+                        <li>File type: ${fileType} </li>
+                        <li>Meta info file name: ${metaFileName} </li>
+                        <li>Data file name: ${dataFileName} </li>
+                         <li>Received count: ${receiveCount} </li>
+                        <li>Time stamp: ${timeStamp} </li>
+                    </ul>
+                    <br/>
+                    Thank you.
+                </td>
+                </tr>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty name="splunkurl" source="logging.splunk.url" />
+    <springProperty name="splunktoken" source="logging.splunk.token" />
+    <springProperty name="splunkindex" source="logging.splunk.index" />
+    <springProperty name="splunkhost" source="logging.splunk.host" />
+    <springProperty name="splunksource" source="logging.splunk.source" />
+    <springProperty name="splunksourcetype" source="logging.splunk.sourcetype" />
+    <springProperty name="loglevel" source="logging.loglevel" />
+
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - [%C] [%t] %-5p %M %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SPLUNK"
+              class="com.splunk.logging.HttpEventCollectorLogbackAppender">
+        <url>${splunkurl}}</url>
+        <index>${splunkindex}}</index>
+        <host>${splunkhost}}</host>
+        <source>${splunksource}</source>
+        <sourcetype>${splunksourcetype}</sourcetype>
+        <token>${splunktoken}}</token>
+        <disableCertificateValidation>true</disableCertificateValidation>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - [%C] [%t] %-5p %c:%L %M %m%n</pattern>
+        </layout>
+    </appender>
+
+
+    <logger name="com.optum" additivity="false" level="${loglevel}">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="SPLUNK"/>
+    </logger>
+
+    <root level="ERROR">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="SPLUNK"/>
+    </root>
+</configuration>

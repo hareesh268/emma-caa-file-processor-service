@@ -1,0 +1,84 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: emma-caa-file-processor-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: emma
+      subapp: dwmp
+      tier: backend
+      type: kafka
+      microservice: fileProcessorService
+  template:
+    metadata:
+      labels:
+        app: emma
+        subapp: dwmp
+        tier: backend
+        type: kafka
+        microservice: fileProcessorService
+    spec:
+      containers:
+        - name: emma-caa-file-processor-service-container
+          # CONTAINER_TAG will be changed by using sed command in Jenkinsfile
+          image: docker.repo1.uhc.com/emma/emma-caa-file-processor-service:CONTAINER_TAG
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: '1500m'
+              memory: '2Gi'
+            requests:
+              cpu: '1000m'
+              memory: '1Gi'
+          ports:
+            - containerPort: 8080
+          # https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#configure-all-key-value-pairs-in-a-secret-as-container-environment-variables
+          # Used the following command (these are all the variables that are defined):
+          # kubectl create secret generic db-info-secret --from-literal=DB_HOST_NAME='' --from-literal=DB_NAME=''
+          #   --from-literal=DB_SCHEMA_NAME='' --from-literal=DB_USER_NAME='' --from-literal=DB_USER_PASSWORD=''
+          # To check all environment variables and their values injected into the pod, run:
+          # kubectl exec -i -t emma-caa-file-processor-service-container -- /bin/sh -c 'echo "DB_HOST_NAME: $DB_HOST_NAME\nDB_NAME: $DB_NAME\nDB_SCHEMA_NAME: $DB_SCHEMA_NAME\nDB_USER_NAME: $DB_USER_NAME\nDB_USER_PASSWORD: $DB_USER_PASSWORD"'
+          envFrom:
+            - secretRef:
+                name: multihost-db-secret
+            - secretRef:
+                name: kafka-secrets
+            - secretRef:
+                name: splunk-info-secret
+            - secretRef:
+                name: service-now-secrets
+            - secretRef:
+                name: object-storage-secrets
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: KAFKA_CONSUMER_TOPIC
+              value: "kaas.prod.ctc.emma.caa.fileevent"
+            - name: KAFKA_PRODUCER_TOPIC
+              value: "kaas.prod.ctc.emma.caa.recordevent"
+            - name: SESSION_TIMEOUT
+              value: "120000"
+            - name: MAX_POLL_TIMEOUT
+              value: "300000"
+            - name: HEARTBEAT_INTERVAL
+              value: "6000"
+            - name: MAX_POLL_RECORDS
+              value: "500"
+            - name: CONSUMER_GROUP
+              value: "emma-ctc"
+            - name: LOG_LEVEL
+              value: "ERROR"
+            - name: DIVIDED_BY
+              value: "10"
+            - name: EMAIL_TO
+              value: "DWMP_Dev@ds.uhc.com"
+            - name: MAIL_HOST
+              value: "elr-smtp-relay-ose.optum.com"
+            - name: EMAIL_NOTIFICATION_TO
+              value: "DWMP_Dev@ds.uhc.com"
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 2000

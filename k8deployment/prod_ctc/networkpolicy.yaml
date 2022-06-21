@@ -1,0 +1,20 @@
+# Egress policy is needed because a default all egress allowed is applied to namespace from
+# https://kubernetes.io/docs/concepts/services-networking/network-policies/#default-allow-all-egress-traffic
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+    name: emma-caa-file-processor-service-netpol
+spec:
+    podSelector:
+        matchLabels:
+            app: emma
+            subapp: dwmp
+            tier: backend
+            type: kafka
+            microservice: fileProcessorService
+    policyTypes:
+        - Ingress
+    ingress:
+        - ports:
+              - port: 8080
+                protocol: TCP

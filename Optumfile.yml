@@ -1,0 +1,8 @@
+apiVersion: v1
+metadata:
+  askId: UHGWM110-025517
+  caAgileId: poc
+  projectKey: com.optum.emma:emma-caa-fileProcessorService
+  projectFriendlyName: emma-caa-fileProcessorService
+  componentType: code
+  targetQG: ADOPTION
